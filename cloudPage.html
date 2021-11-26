@@ -1,4 +1,4 @@
-V16
+V17
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -18,7 +18,7 @@ V16
         "Fields" : [
           { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
         ]
-      }
+      };
       var Status = DataExtension.Add(obj);
       if (Status == 'OK') {
         Write("(+) Data Extension was created successfully." + "<br>");
