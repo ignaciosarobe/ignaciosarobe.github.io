@@ -1,51 +1,47 @@
-V23
-
+V25
 <script runat="server">
     Platform.Load("core","1.1");
     try {
       
-        var FolderName = "Script";
+         var FolderName = "_test;
 
         var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
         var FolderID = FolderAttributes[0].ID;     
-        Write("Folder ID" + FolderID + "<br>");
 
-        var ListOfOptionsDE = DataExtension.Init("Categorias");
+        var ListOfOptionsDE = DataExtension.Init("Journey_Transaccionales_Prioridad");
         var Rows = ListOfOptionsDE.Rows.Retrieve();
-        Write("Rows.length" + Rows.length + "<br>");
-      
+
         for(var i in Rows) { 
-            var DE = "UsuariosCategoria_" + Rows[i]["Categoria"];
+            var Categoria = Rows[i]["Categoria"];
+            var DE = "AR_Users_" + Categoria;
             var obj = {
                 "CustomerKey" : DE,
                 "Name" : DE,
                 "CategoryID": FolderID,
                 "Fields" : [
-                { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
+                { "Name" : "email", "FieldType" : "EmailAddress" },
+                { "Name" : "id_user_pais", "FieldType" : "Text", "MaxLength" : 50 },
+                { "Name" : "Categoria_n1", "FieldType" : "Text", "MaxLength" : 50 },
+                { "Name" : "Categoria_n2", "FieldType" : "Text", "MaxLength" : 50 }
                 ]
             };
             var Status = DataExtension.Add(obj);
-            Write("(+) Data Extension Status:" + Status + "<br>");
-
             var prox = new Script.Util.WSProxy();
             var result = prox.updateItem("QueryDefinition", {
-                ObjectID: "50364c91-eedf-4be4-b112-f36de483aeac",             // required
+                ObjectID: "de1f6b57-fa4a-497c-bd4e-873a65e25bce",             // required este sale de la URL y no es la externa
                 DataExtensionTarget : {                                       // required. But add Name and CustomerKey only if updating the target DE
                     Name : DE,                                         // Add only if changing the target DE
                     CustomerKey : DE                                   // Add only if changing the target DE, else leave blank
                 },
-                QueryText : "SELECT SubscriberKey from _Sent"                           // Add only to update the SQL query 
+                QueryText : "SELECT distinct email, u.id_user_pais, t.categoria_n1, t.categoria_n2 FROM transactions_model t JOIN users_model u ON t.id_customer_pais = u.id_user_pais WHERE CATEGORIA_N2 = '" + Categoria +"' or categoria_n1 = '" + Categoria +"'"                           // Add only to update the SQL query 
             });
-            Write(Stringify(result));
 
-            var qd = "3ea1b61c-6351-44f4-ad1f-a0972249a5b0"
+            var qd = "25020d6e-5f6f-4332-8b1a-9e421c4ab542" //external id de la query definition
             qd = QueryDefinition.Init(qd);
             var perform_status = qd.Perform();
-            Write(Stringify(perform_status));
         }
 
-
     } catch (err) {
-        Write("(!) Data Extension was not created. Error message: " + err + "<br>")
+        Write("(!) Error message: " + err + "<br>")
     }  
 </script>
