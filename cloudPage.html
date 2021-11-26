@@ -1,4 +1,4 @@
-V20
+V21
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -33,6 +33,11 @@ V20
                 QueryText : "SELECT SubscriberKey from _Sent"                           // Add only to update the SQL query 
             });
             Write(Stringify(result));
+
+            var qd = "3ea1b61c-6351-44f4-ad1f-a0972249a5b0"
+            qd = QueryDefinition.Init(qd);
+            var perform_status = qd.Perform();
+            Write(Stringify(perform_status));
         }
 
 
