@@ -1,26 +1,30 @@
-V19
+V20
 
 <script runat="server">
     Platform.Load("core","1.1");
     try {
       
-      var DE = "ScriptTestCreateDE";
-      var FolderName = "Script";
+        var FolderName = "Script";
 
-      var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
-      var FolderID = FolderAttributes[0].ID;     
-      Write("Folder ID" + FolderID + "<br>");
+        var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
+        var FolderID = FolderAttributes[0].ID;     
+        Write("Folder ID" + FolderID + "<br>");
       
-      var obj = {
-        "CustomerKey" : Platform.Function.GUID(),
-        "Name" : DE,
-        "CategoryID": FolderID,
-        "Fields" : [
-          { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
-        ]
-      };
-      var Status = DataExtension.Add(obj);
-      Write("(+) Data Extension Status:" + Status + "<br>");
+        //for (var i = 0;i<3;i++) {  
+            var DE = "ScriptTestCreateDE2";
+            var obj = {
+                "CustomerKey" : DE,
+                "Name" : DE,
+                "CategoryID": FolderID,
+                "Fields" : [
+                { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
+                ]
+            };
+            var Status = DataExtension.Add(obj);
+            Write("(+) Data Extension Status:" + Status + "<br>");
+        //}
+
+
     } catch (err) {
         Write("(!) Data Extension was not created. Error message: " + err + "<br>")
     }  
