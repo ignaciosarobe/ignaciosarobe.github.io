@@ -1,4 +1,4 @@
-V22
+V23
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -12,6 +12,7 @@ V22
 
         var ListOfOptionsDE = DataExtension.Init("Categorias");
         var Rows = ListOfOptionsDE.Rows.Retrieve();
+        Write("Rows" + Rows + "<br>");
       
         for(var i in Rows) { 
             var DE = "UsuariosCategoria_" + Rows[i]["Categoria"];
