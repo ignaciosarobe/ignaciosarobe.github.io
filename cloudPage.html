@@ -1,7 +1,34 @@
-<h1>
-    Test cloudPages v4
-</h1>
+V10
 
-%%[
+<script runat="server">
+    Platform.Load("core","1.1");
+    try {
+      
+      var DE = "MyDataExtension2",
+      var FolderName = "Script";
 
-]%%
+      var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
+      var FolderID = FolderAttributes[0].ID;     
+      Write("Folder ID" + FolderID);
+      
+      
+      var obj = {
+        "CustomerKey" : Platform.Function.GUID(),
+        "Name" : DE,
+        "CategoryID": FolderID,
+        "Fields" : [
+          { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
+        ]
+      };
+      var Status = DataExtension.Add(obj);
+      If (Status == 'OK') {
+        Write("(+) Data Extension was created successfully." + "<br>");
+
+      } else {
+        Write("(!) Data Extension was not created. Error message: " + Status + "<br>")
+      }
+        
+    } catch (err) {
+        Write("(!) Data Extension was not created. Error message: " + err + "<br>")
+    }  
+</script>
