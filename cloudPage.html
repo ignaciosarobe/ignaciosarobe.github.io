@@ -1,4 +1,4 @@
-V21
+V22
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -9,9 +9,12 @@ V21
         var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
         var FolderID = FolderAttributes[0].ID;     
         Write("Folder ID" + FolderID + "<br>");
+
+        var ListOfOptionsDE = DataExtension.Init("Categorias");
+        var Rows = ListOfOptionsDE.Rows.Retrieve();
       
-        for (var i = 0;i<3;i++) {  
-            var DE = "ScriptAutoDEConCris_" + i;
+        for(var i in Rows) { 
+            var DE = "UsuariosCategoria_" + Rows[i]["Categoria"];
             var obj = {
                 "CustomerKey" : DE,
                 "Name" : DE,
