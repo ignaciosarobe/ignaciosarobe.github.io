@@ -10,8 +10,8 @@ V20
         var FolderID = FolderAttributes[0].ID;     
         Write("Folder ID" + FolderID + "<br>");
       
-        //for (var i = 0;i<3;i++) {  
-            var DE = "ScriptTestCreateDE2";
+        for (var i = 0;i<3;i++) {  
+            var DE = "ScriptAutoDE_" + i;
             var obj = {
                 "CustomerKey" : DE,
                 "Name" : DE,
@@ -22,7 +22,18 @@ V20
             };
             var Status = DataExtension.Add(obj);
             Write("(+) Data Extension Status:" + Status + "<br>");
-        //}
+
+            var prox = new Script.Util.WSProxy();
+            var result = prox.updateItem("QueryDefinition", {
+                ObjectID: "50364c91-eedf-4be4-b112-f36de483aeac",             // required
+                DataExtensionTarget : {                                       // required. But add Name and CustomerKey only if updating the target DE
+                    Name : DE,                                         // Add only if changing the target DE
+                    CustomerKey : DE                                   // Add only if changing the target DE, else leave blank
+                },
+                QueryText : "SELECT SubscriberKey from _Sent"                           // Add only to update the SQL query 
+            });
+            Write(Stringify(result));
+        }
 
 
     } catch (err) {
