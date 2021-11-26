@@ -1,4 +1,4 @@
-V26
+V27
 <script runat="server">
     Platform.Load("core","1.1");
     try {
@@ -10,38 +10,7 @@ V26
 
         Write("(!) FolderID: " + FolderID + "<br>");
 
-        var ListOfOptionsDE = DataExtension.Init("Journey_Transaccionales_Prioridad");
-        var Rows = ListOfOptionsDE.Rows.Retrieve();
-
-        for(var i in Rows) { 
-            var Categoria = Rows[i]["Categoria"];
-            var DE = "AR_Users_" + Categoria;
-            var obj = {
-                "CustomerKey" : DE,
-                "Name" : DE,
-                "CategoryID": FolderID,
-                "Fields" : [
-                { "Name" : "email", "FieldType" : "EmailAddress" },
-                { "Name" : "id_user_pais", "FieldType" : "Text", "MaxLength" : 50 },
-                { "Name" : "Categoria_n1", "FieldType" : "Text", "MaxLength" : 50 },
-                { "Name" : "Categoria_n2", "FieldType" : "Text", "MaxLength" : 50 }
-                ]
-            };
-            var Status = DataExtension.Add(obj);
-            var prox = new Script.Util.WSProxy();
-            var result = prox.updateItem("QueryDefinition", {
-                ObjectID: "de1f6b57-fa4a-497c-bd4e-873a65e25bce",             // required este sale de la URL y no es la externa
-                DataExtensionTarget : {                                       // required. But add Name and CustomerKey only if updating the target DE
-                    Name : DE,                                         // Add only if changing the target DE
-                    CustomerKey : DE                                   // Add only if changing the target DE, else leave blank
-                },
-                QueryText : "SELECT distinct email, u.id_user_pais, t.categoria_n1, t.categoria_n2 FROM transactions_model t JOIN users_model u ON t.id_customer_pais = u.id_user_pais WHERE CATEGORIA_N2 = '" + Categoria +"' or categoria_n1 = '" + Categoria +"'"                           // Add only to update the SQL query 
-            });
-
-            var qd = "25020d6e-5f6f-4332-8b1a-9e421c4ab542" //external id de la query definition
-            qd = QueryDefinition.Init(qd);
-            var perform_status = qd.Perform();
-        }
+        
 
     } catch (err) {
         Write("(!) Error message: " + err + "<br>");
