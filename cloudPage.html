@@ -1,4 +1,4 @@
-V13
+V14
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -10,10 +10,9 @@ V13
       var FolderAttributes = Folder.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: FolderName });
       var FolderID = FolderAttributes[0].ID;     
       Write("Folder ID" + FolderID);
-
-      } else {
-        Write("(!) Data Extension was not created. Error message: " + Status + "<br>")
-      }
+      
+      
+      
         
     } catch (err) {
         Write("(!) Data Extension was not created. Error message: " + err + "<br>")
