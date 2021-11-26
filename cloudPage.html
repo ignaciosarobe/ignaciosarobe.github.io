@@ -1,4 +1,4 @@
-V14
+V15
 
 <script runat="server">
     Platform.Load("core","1.1");
@@ -11,7 +11,21 @@ V14
       var FolderID = FolderAttributes[0].ID;     
       Write("Folder ID" + FolderID);
       
-      
+      var obj = {
+        "CustomerKey" : Platform.Function.GUID(),
+        "Name" : DE,
+        "CategoryID": FolderID,
+        "Fields" : [
+          { "Name" : "SubscriberKey", "FieldType" : "Text", "MaxLength" : 50 }
+        ]
+      };
+      var Status = DataExtension.Add(obj);
+      If (Status == 'OK') {
+        Write("(+) Data Extension was created successfully." + "<br>");
+
+      } else {
+        Write("(!) Data Extension was not created. Error message: " + Status + "<br>")
+      }
       
         
     } catch (err) {
